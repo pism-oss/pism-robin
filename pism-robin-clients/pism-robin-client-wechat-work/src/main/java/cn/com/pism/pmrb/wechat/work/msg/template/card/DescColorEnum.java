@@ -5,7 +5,7 @@ package cn.com.pism.pmrb.wechat.work.msg.template.card;
  * @author perccyking
  * @since 2024/5/6 15:23
  */
-public enum DescColor {
+public enum DescColorEnum {
 
     /**
      * 灰色

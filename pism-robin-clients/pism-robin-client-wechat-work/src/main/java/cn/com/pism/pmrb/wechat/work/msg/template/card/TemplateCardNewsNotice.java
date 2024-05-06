@@ -8,10 +8,10 @@ import java.util.List;
  * @author perccyking
  * @since 2024/5/6 15:42
  */
-public class TemplateCardNewsNotice extends TemplateCard {
+public class TemplateCardNewsNotice extends TemplateCard<TemplateCardNewsNotice> {
 
     public TemplateCardNewsNotice() {
-        super(WechatWorkMsgType.TEMPLATE_CARD, CardType.NEWS_NOTICE);
+        super(WechatWorkMsgType.TEMPLATE_CARD, CardTypeEnum.NEWS_NOTICE);
     }
 
     /**
@@ -25,6 +25,20 @@ public class TemplateCardNewsNotice extends TemplateCard {
      * 必填：否
      */
     private ImageTextArea imageTextArea;
+
+    public static TemplateCardNewsNotice instance() {
+        return new TemplateCardNewsNotice();
+    }
+
+    public TemplateCardNewsNotice cardImage(CardImage cardImage) {
+        this.cardImage = cardImage;
+        return this;
+    }
+
+    public TemplateCardNewsNotice imageTextArea(ImageTextArea imageTextArea) {
+        this.imageTextArea = imageTextArea;
+        return this;
+    }
 
     /**
      * <p>卡片二级垂直内容，该字段可为空数组，但有数据的话需确认对应字段是否必填，列表长度不超过4</p>
@@ -59,5 +73,10 @@ public class TemplateCardNewsNotice extends TemplateCard {
     @Override
     protected String getMsgContent() {
         return "";
+    }
+
+    @Override
+    protected TemplateCardNewsNotice getInstance() {
+        return this;
     }
 }

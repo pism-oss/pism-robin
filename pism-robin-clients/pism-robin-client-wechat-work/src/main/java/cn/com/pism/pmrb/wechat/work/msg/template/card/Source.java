@@ -1,6 +1,6 @@
 package cn.com.pism.pmrb.wechat.work.msg.template.card;
 
-import static cn.com.pism.pmrb.wechat.work.msg.template.card.DescColor.GREY;
+import static cn.com.pism.pmrb.wechat.work.msg.template.card.DescColorEnum.GREY;
 
 /**
  * @author perccyking
@@ -22,7 +22,7 @@ public class Source {
     /**
      * <p>来源文字的颜色，目前支持：0(默认) 灰色，1 黑色，2 红色，3 绿色</p>
      */
-    private DescColor descColor = GREY;
+    private DescColorEnum descColor = GREY;
 
     public String getIconUrl() {
         return iconUrl;
@@ -40,11 +40,11 @@ public class Source {
         this.desc = desc;
     }
 
-    public DescColor getDescColor() {
+    public DescColorEnum getDescColor() {
         return descColor;
     }
 
-    public void setDescColor(DescColor descColor) {
+    public void setDescColor(DescColorEnum descColor) {
         this.descColor = descColor;
     }
 }

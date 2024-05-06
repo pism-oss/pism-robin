@@ -18,6 +18,20 @@ public class EmphasisContent {
      */
     private String desc;
 
+    public static EmphasisContent instance() {
+        return new EmphasisContent();
+    }
+
+    public EmphasisContent title(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public EmphasisContent desc(String desc) {
+        this.desc = desc;
+        return this;
+    }
+
     public String getTitle() {
         return title;
     }

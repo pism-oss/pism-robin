@@ -5,7 +5,7 @@ public class Jump {
      * <p>跳转链接类型，0或不填代表不是链接，1 代表跳转url，2 代表跳转小程序</p>
      * 必填：否
      */
-    private Integer type;
+    private ClickTypeEnum type;
 
     /**
      * <p>跳转链接样式的文案内容，建议不超过13个字</p>
@@ -31,11 +31,40 @@ public class Jump {
      */
     private String pagePath;
 
-    public Integer getType() {
+    public static Jump instance(){
+        return new Jump();
+    }
+
+    public Jump type(ClickTypeEnum type) {
+        this.type = type;
+        return this;
+    }
+
+    public Jump title(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public Jump url(String url) {
+        this.url = url;
+        return this;
+    }
+
+    public Jump appid(String appid) {
+        this.appid = appid;
+        return this;
+    }
+
+    public Jump pagePath(String pagePath) {
+        this.pagePath = pagePath;
+        return this;
+    }
+
+    public ClickTypeEnum getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(ClickTypeEnum type) {
         this.type = type;
     }
 

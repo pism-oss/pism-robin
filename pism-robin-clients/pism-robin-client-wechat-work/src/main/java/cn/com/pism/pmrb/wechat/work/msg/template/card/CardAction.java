@@ -25,6 +25,31 @@ public class CardAction {
      */
     private String pagePath;
 
+    public static CardAction instance() {
+        return new CardAction();
+    }
+
+    public CardAction type(Integer type) {
+        this.type = type;
+        return this;
+    }
+
+    public CardAction url(String url) {
+        this.url = url;
+        return this;
+    }
+
+    public CardAction appid(String appid) {
+        this.appid = appid;
+        return this;
+    }
+
+    public CardAction pagePath(String pagePath) {
+        this.pagePath = pagePath;
+        return this;
+    }
+
+
     public Integer getType() {
         return type;
     }

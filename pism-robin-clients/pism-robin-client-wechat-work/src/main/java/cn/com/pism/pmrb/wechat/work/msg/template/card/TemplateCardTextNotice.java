@@ -6,10 +6,10 @@ import static cn.com.pism.pmrb.wechat.work.msg.WechatWorkMsgType.TEMPLATE_CARD;
  * @author perccyking
  * @since 2024/5/6 15:37
  */
-public class TemplateCardTextNotice extends TemplateCard {
+public class TemplateCardTextNotice extends TemplateCard<TemplateCardTextNotice> {
 
     public TemplateCardTextNotice() {
-        super(TEMPLATE_CARD, CardType.TEXT_NOTICE);
+        super(TEMPLATE_CARD, CardTypeEnum.TEXT_NOTICE);
     }
 
     /**
@@ -23,6 +23,15 @@ public class TemplateCardTextNotice extends TemplateCard {
      * 必填：否
      */
     private String subTitleText;
+
+    public static TemplateCardTextNotice instance() {
+        return new TemplateCardTextNotice();
+    }
+
+    public TemplateCardTextNotice emphasisContent(EmphasisContent emphasisContent) {
+        this.emphasisContent = emphasisContent;
+        return this;
+    }
 
     public EmphasisContent getEmphasisContent() {
         return emphasisContent;
@@ -43,5 +52,10 @@ public class TemplateCardTextNotice extends TemplateCard {
     @Override
     protected String getMsgContent() {
         return "";
+    }
+
+    @Override
+    protected TemplateCardTextNotice getInstance() {
+        return this;
     }
 }

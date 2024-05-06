@@ -18,6 +18,20 @@ public class MainTitle {
      */
     private String desc;
 
+    public static MainTitle instance(){
+        return new MainTitle();
+    }
+
+    public MainTitle title(String title){
+        this.title = title;
+        return this;
+    }
+
+    public MainTitle desc(String desc){
+        this.desc = desc;
+        return this;
+    }
+
     public String getTitle() {
         return title;
     }

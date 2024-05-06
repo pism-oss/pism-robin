@@ -13,6 +13,20 @@ public class VerticalContent {
      */
     private String desc;
 
+    public static VerticalContent instance() {
+        return new VerticalContent();
+    }
+
+    public VerticalContent title(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public VerticalContent desc(String desc) {
+        this.desc = desc;
+        return this;
+    }
+
     public String getTitle() {
         return title;
     }

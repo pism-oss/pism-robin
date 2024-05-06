@@ -5,7 +5,7 @@ public class HorizontalContent {
      * <p>模版卡片的二级标题信息内容支持的类型，1是url，2是文件附件</p>
      * 必填：否
      */
-    private Integer type;
+    private ContentTypeEnum type;
 
     /**
      * <p>二级标题，建议不超过5个字</p>
@@ -31,11 +31,40 @@ public class HorizontalContent {
      */
     private String mediaId;
 
-    public Integer getType() {
+    public static HorizontalContent instance() {
+        return new HorizontalContent();
+    }
+
+    public HorizontalContent type(ContentTypeEnum type) {
+        this.type = type;
+        return this;
+    }
+
+    public HorizontalContent keyName(String keyName) {
+        this.keyName = keyName;
+        return this;
+    }
+
+    public HorizontalContent value(String value) {
+        this.value = value;
+        return this;
+    }
+
+    public HorizontalContent url(String url) {
+        this.url = url;
+        return this;
+    }
+
+    public HorizontalContent mediaId(String mediaId) {
+        this.mediaId = mediaId;
+        return this;
+    }
+
+    public ContentTypeEnum getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(ContentTypeEnum type) {
         this.type = type;
     }
 

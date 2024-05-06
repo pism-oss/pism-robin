@@ -10,7 +10,7 @@ public class ImageTextArea {
      * <p>左图右文样式区域点击事件，0或不填代表没有点击事件，1 代表跳转url，2 代表跳转小程序</p>
      * 必填：否
      */
-    private Integer type;
+    private ClickTypeEnum type;
 
     /**
      * <p>点击跳转的url，image_text_area.type是1时必填</p>
@@ -48,12 +48,51 @@ public class ImageTextArea {
      */
     private String imageUrl;
 
+    public static ImageTextArea instance() {
+        return new ImageTextArea();
+    }
 
-    public Integer getType() {
+    public ImageTextArea type(ClickTypeEnum type) {
+        this.type = type;
+        return this;
+    }
+
+    public ImageTextArea url(String url) {
+        this.url = url;
+        return this;
+    }
+
+    public ImageTextArea appid(String appid) {
+        this.appid = appid;
+        return this;
+    }
+
+    public ImageTextArea pagePath(String pagePath) {
+        this.pagePath = pagePath;
+        return this;
+    }
+
+    public ImageTextArea title(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public ImageTextArea desc(String desc) {
+        this.desc = desc;
+        return this;
+    }
+
+    public ImageTextArea imageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+        return this;
+    }
+
+
+    public ClickTypeEnum getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(ClickTypeEnum type) {
         this.type = type;
     }
 

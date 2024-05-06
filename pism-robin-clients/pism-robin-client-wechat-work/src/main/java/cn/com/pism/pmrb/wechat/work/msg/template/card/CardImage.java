@@ -2,6 +2,7 @@ package cn.com.pism.pmrb.wechat.work.msg.template.card;
 
 /**
  * 图片样式
+ *
  * @author perccyking
  * @since 2024/5/6 17:12
  */
@@ -17,6 +18,21 @@ public class CardImage {
      * 图片的宽高比，宽高比要小于2.25，大于1.3，不填该参数默认1.3
      */
     private Double aspectRatio;
+
+    public static CardImage instance() {
+        return new CardImage();
+    }
+
+    public CardImage url(String url) {
+        this.url = url;
+        return this;
+    }
+
+    public CardImage aspectRatio(Double aspectRatio) {
+        this.aspectRatio = aspectRatio;
+        return this;
+    }
+
 
     public String getUrl() {
         return url;

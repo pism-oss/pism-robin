@@ -4,7 +4,7 @@ package cn.com.pism.pmrb.wechat.work.msg.template.card;
  * @author perccyking
  * @since 2024/5/6 15:28
  */
-public enum CardType {
+public enum CardTypeEnum {
     /**
      * 文本通知模版卡片
      */
@@ -21,7 +21,7 @@ public enum CardType {
         return code;
     }
 
-    CardType(String code) {
+    CardTypeEnum(String code) {
         this.code = code;
     }
 }

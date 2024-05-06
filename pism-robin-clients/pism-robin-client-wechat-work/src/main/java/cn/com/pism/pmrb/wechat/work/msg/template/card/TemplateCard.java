@@ -11,9 +11,9 @@ import java.util.List;
  * @author perccyking
  * @since 2024/5/6 15:18
  */
-public abstract class TemplateCard extends WechatWorkMsg {
+public abstract class TemplateCard<C> extends WechatWorkMsg {
 
-    protected TemplateCard(WechatWorkMsgType msgType, CardType cardType) {
+    protected TemplateCard(WechatWorkMsgType msgType, CardTypeEnum cardType) {
         super(msgType);
         this.cardType = cardType;
     }
@@ -22,7 +22,7 @@ public abstract class TemplateCard extends WechatWorkMsg {
      * <p>模版卡片的模版类型，文本通知模版卡片的类型为text_notice</p>
      * 必填：是
      */
-    private CardType cardType;
+    private CardTypeEnum cardType;
 
     /**
      * <p>卡片来源样式信息，不需要来源样式可不填写</p>
@@ -59,11 +59,41 @@ public abstract class TemplateCard extends WechatWorkMsg {
      */
     private CardAction cardAction;
 
-    public CardType getCardType() {
+    public C source(Source source) {
+        this.source = source;
+        return getInstance();
+    }
+
+    public C mainTitle(MainTitle mainTitle) {
+        this.mainTitle = mainTitle;
+        return getInstance();
+    }
+
+    public C quotArea(QuotArea quotArea) {
+        this.quotArea = quotArea;
+        return getInstance();
+    }
+
+    public C horizontalContent(List<HorizontalContent> horizontalContentList) {
+        this.horizontalContentList = horizontalContentList;
+        return getInstance();
+    }
+
+    public C jump(List<Jump> jumpList) {
+        this.jumpList = jumpList;
+        return getInstance();
+    }
+
+    public C cardAction(CardAction cardAction) {
+        this.cardAction = cardAction;
+        return getInstance();
+    }
+
+    public CardTypeEnum getCardType() {
         return cardType;
     }
 
-    public void setCardType(CardType cardType) {
+    public void setCardType(CardTypeEnum cardType) {
         this.cardType = cardType;
     }
 
@@ -114,4 +144,6 @@ public abstract class TemplateCard extends WechatWorkMsg {
     public void setCardAction(CardAction cardAction) {
         this.cardAction = cardAction;
     }
+
+    protected abstract C getInstance();
 }
