@@ -4,6 +4,9 @@ import cn.com.pism.pmrb.wechat.work.msg.WechatWorkMsg;
 import cn.com.pism.pmrb.wechat.work.msg.WechatWorkMsgType;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNull;
 
 /**
  * 模版卡片
@@ -12,6 +15,10 @@ import java.util.List;
  * @since 2024/5/6 15:18
  */
 public abstract class TemplateCard<C> extends WechatWorkMsg {
+
+    protected static final String TEMPLATE_CARD_MSG = "\"card_type\": \"%s\", \"source\": %s, \"main_title\": %s, \"quote_area\": %s, \"horizontal_content_list\": [%s],\"jump_list\": [%s], \"card_action\": %s";
+
+    protected static final String JSON_BRACKETS = "{}";
 
     protected TemplateCard(WechatWorkMsgType msgType, CardTypeEnum cardType) {
         super(msgType);
@@ -146,4 +153,16 @@ public abstract class TemplateCard<C> extends WechatWorkMsg {
     }
 
     protected abstract C getInstance();
+
+    public String toJson() {
+        return String.format(TEMPLATE_CARD_MSG,
+                isNotNull(getCardType(), CardTypeEnum::getCode, ""),
+                isNotNull(getSource(), Source::toJson, JSON_BRACKETS),
+                isNotNull(getMainTitle(), MainTitle::toJson, JSON_BRACKETS),
+                isNotNull(getQuotArea(), QuotArea::toJson, JSON_BRACKETS),
+                isNotNull(getHorizontalContentList(), hcList -> hcList.stream().map(HorizontalContent::toJson).collect(Collectors.joining(",")), ""),
+                isNotNull(getJumpList(), jl -> jl.stream().map(Jump::toJson).collect(Collectors.joining(",")), ""),
+                isNotNull(getCardAction(), CardAction::toJson, JSON_BRACKETS)
+        );
+    }
 }

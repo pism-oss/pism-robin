@@ -1,6 +1,12 @@
 package cn.com.pism.pmrb.wechat.work.msg.template.card;
 
+import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNull;
+import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNullOrDef;
+
 public class Jump {
+
+    private static final String MSG = "{\"type\":%s,\"appid\":\"%s\",\"pagepath\":\"%s\",\"url\":\"%s\",\"title\":\"%s\"}";
+
     /**
      * <p>跳转链接类型，0或不填代表不是链接，1 代表跳转url，2 代表跳转小程序</p>
      * 必填：否
@@ -31,7 +37,7 @@ public class Jump {
      */
     private String pagePath;
 
-    public static Jump instance(){
+    public static Jump instance() {
         return new Jump();
     }
 
@@ -98,5 +104,14 @@ public class Jump {
 
     public void setPagePath(String pagePath) {
         this.pagePath = pagePath;
+    }
+
+    public String toJson() {
+        return String.format(MSG,
+                isNotNull(type, Enum::ordinal, 0),
+                isNotNullOrDef(appid),
+                isNotNullOrDef(pagePath),
+                isNotNullOrDef(url),
+                isNotNullOrDef(title));
     }
 }

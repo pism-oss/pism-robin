@@ -12,7 +12,7 @@ public class WechatWorkConfig extends RobinConfig {
     /**
      * url
      */
-    private String url;
+    private String url = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=";
 
     /**
      * key

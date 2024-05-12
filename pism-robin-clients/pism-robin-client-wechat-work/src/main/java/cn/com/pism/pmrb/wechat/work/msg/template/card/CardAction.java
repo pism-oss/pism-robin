@@ -1,11 +1,18 @@
 package cn.com.pism.pmrb.wechat.work.msg.template.card;
 
+import cn.com.pism.pmrb.core.util.EnhanceUtil;
+
+import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNull;
+
 public class CardAction {
+
+    private static final String MSG = "{\"type\":%s,\"url\":\"%s\",\"appid\":\"%s\",\"pagepath\":\"%s\"}";
+
     /**
      * <p>卡片跳转类型，1 代表跳转url，2 代表打开小程序。news_notice模版卡片中该字段取值范围为[1,2]</p>
      * 必填：是
      */
-    private Integer type;
+    private ClickTypeEnum type;
 
     /**
      * <p>跳转事件的url，card_action.type是1时必填</p>
@@ -29,7 +36,7 @@ public class CardAction {
         return new CardAction();
     }
 
-    public CardAction type(Integer type) {
+    public CardAction type(ClickTypeEnum type) {
         this.type = type;
         return this;
     }
@@ -50,11 +57,11 @@ public class CardAction {
     }
 
 
-    public Integer getType() {
+    public ClickTypeEnum getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(ClickTypeEnum type) {
         this.type = type;
     }
 
@@ -80,5 +87,12 @@ public class CardAction {
 
     public void setPagePath(String pagePath) {
         this.pagePath = pagePath;
+    }
+
+    public String toJson() {
+        return String.format(MSG, isNotNull(type, Enum::ordinal, ""),
+                EnhanceUtil.isNotNullOrDef(url),
+                EnhanceUtil.isNotNullOrDef(appid),
+                EnhanceUtil.isNotNullOrDef(pagePath));
     }
 }

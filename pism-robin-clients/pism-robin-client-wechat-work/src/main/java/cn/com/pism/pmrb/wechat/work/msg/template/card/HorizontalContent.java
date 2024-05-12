@@ -1,6 +1,12 @@
 package cn.com.pism.pmrb.wechat.work.msg.template.card;
 
+import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNull;
+import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNullOrDef;
+
 public class HorizontalContent {
+
+    private static final String MSG = "{\"keyname\":\"%s\",\"value\":\"%s\",\"type\":%s,\"media_id\":\"%s\",\"url\":\"%s\"}";
+
     /**
      * <p>模版卡片的二级标题信息内容支持的类型，1是url，2是文件附件</p>
      * 必填：否
@@ -98,5 +104,13 @@ public class HorizontalContent {
 
     public void setMediaId(String mediaId) {
         this.mediaId = mediaId;
+    }
+
+    public String toJson() {
+        return String.format(MSG, isNotNullOrDef(keyName),
+                isNotNullOrDef(value),
+                isNotNull(type, ContentTypeEnum::getCode, 0),
+                isNotNullOrDef(url),
+                isNotNullOrDef(mediaId));
     }
 }

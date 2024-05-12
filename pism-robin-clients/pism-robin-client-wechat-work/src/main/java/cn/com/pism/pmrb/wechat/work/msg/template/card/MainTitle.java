@@ -1,10 +1,14 @@
 package cn.com.pism.pmrb.wechat.work.msg.template.card;
 
+import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNullOrDef;
+
 /**
  * @author perccyking
  * @since 2024/5/6 15:26
  */
 public class MainTitle {
+
+    private static final String MSG = "{\"title\":\"%s\",\"desc\":\"%s\"}";
 
     /**
      * <p>一级标题，建议不超过26个字。模版卡片主要内容的一级标题main_title.title和二级普通文本sub_title_text必须有一项填写</p>
@@ -18,16 +22,16 @@ public class MainTitle {
      */
     private String desc;
 
-    public static MainTitle instance(){
+    public static MainTitle instance() {
         return new MainTitle();
     }
 
-    public MainTitle title(String title){
+    public MainTitle title(String title) {
         this.title = title;
         return this;
     }
 
-    public MainTitle desc(String desc){
+    public MainTitle desc(String desc) {
         this.desc = desc;
         return this;
     }
@@ -46,5 +50,9 @@ public class MainTitle {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public String toJson() {
+        return String.format(MSG, isNotNullOrDef(title), isNotNullOrDef(desc));
     }
 }

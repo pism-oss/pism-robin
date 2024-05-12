@@ -1,10 +1,15 @@
 package cn.com.pism.pmrb.wechat.work.msg.template.card;
 
+import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNull;
+import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNullOrDef;
+
 /**
  * @author perccyking
  * @since 2024/5/6 17:16
  */
 public class ImageTextArea {
+
+    private static final String MSG = "{\"type\":%s,\"url\":\"%s\",\"appid\":\"%s\",\"pagepath\":\"%s\",\"title\":\"%s\",\"desc\":\"%s\",\"image_url\":\"%s\"}";
 
     /**
      * <p>左图右文样式区域点击事件，0或不填代表没有点击事件，1 代表跳转url，2 代表跳转小程序</p>
@@ -142,5 +147,15 @@ public class ImageTextArea {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String toJson() {
+        return String.format(MSG, isNotNull(type, Enum::ordinal, 0),
+                isNotNullOrDef(url),
+                isNotNullOrDef(appid),
+                isNotNullOrDef(pagePath),
+                isNotNullOrDef(title),
+                isNotNullOrDef(desc),
+                isNotNullOrDef(imageUrl));
     }
 }

@@ -1,5 +1,6 @@
 package cn.com.pism.pmrb.wechat.work.msg.template.card;
 
+import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNull;
 import static cn.com.pism.pmrb.wechat.work.msg.WechatWorkMsgType.TEMPLATE_CARD;
 
 /**
@@ -7,6 +8,8 @@ import static cn.com.pism.pmrb.wechat.work.msg.WechatWorkMsgType.TEMPLATE_CARD;
  * @since 2024/5/6 15:37
  */
 public class TemplateCardTextNotice extends TemplateCard<TemplateCardTextNotice> {
+
+    private static final String CARD_TEXT_NOTICE_MSG = "{\"emphasis_content\":%s,\"sub_title_text\":\"%s\",%s}";
 
     public TemplateCardTextNotice() {
         super(TEMPLATE_CARD, CardTypeEnum.TEXT_NOTICE);
@@ -37,6 +40,11 @@ public class TemplateCardTextNotice extends TemplateCard<TemplateCardTextNotice>
         return emphasisContent;
     }
 
+    public TemplateCardTextNotice subTitleText(String subTitleText) {
+        this.subTitleText = subTitleText;
+        return this;
+    }
+
     public void setEmphasisContent(EmphasisContent emphasisContent) {
         this.emphasisContent = emphasisContent;
     }
@@ -50,8 +58,12 @@ public class TemplateCardTextNotice extends TemplateCard<TemplateCardTextNotice>
     }
 
     @Override
-    protected String getMsgContent() {
-        return "";
+    public String getMsgContent() {
+        return String.format(CARD_TEXT_NOTICE_MSG,
+                isNotNull(getEmphasisContent(), EmphasisContent::toJson, JSON_BRACKETS),
+                isNotNull(getSubTitleText(), item -> item, ""),
+                super.toJson()
+        );
     }
 
     @Override

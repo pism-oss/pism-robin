@@ -1,6 +1,11 @@
 package cn.com.pism.pmrb.wechat.work.msg.template.card;
 
+import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNullOrDef;
+
 public class VerticalContent {
+
+    public static final String MSG = "{\"title\":\"%s\",\"desc\":\"%s\"}";
+
     /**
      * <p>卡片二级标题，建议不超过26个字</p>
      * 必填：是
@@ -41,5 +46,9 @@ public class VerticalContent {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public String toJson() {
+        return String.format(MSG, isNotNullOrDef(title), isNotNullOrDef(desc));
     }
 }

@@ -1,10 +1,14 @@
 package cn.com.pism.pmrb.wechat.work.msg.template.card;
 
+import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNullOrDef;
+
 /**
  * @author perccyking
  * @since 2024/5/6 15:53
  */
 public class EmphasisContent {
+
+    public static final String MSG = "{\"title\":\"%s\",\"desc\":\"%s\"}";
 
     /**
      * <p>关键数据样式的数据内容，建议不超过10个字</p>
@@ -46,5 +50,9 @@ public class EmphasisContent {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public String toJson() {
+        return String.format(MSG, isNotNullOrDef(title), isNotNullOrDef(desc));
     }
 }
