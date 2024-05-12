@@ -1,5 +1,7 @@
 package cn.com.pism.pmrb.wechat.work.msg;
 
+import cn.com.pism.pmrb.wechat.work.msg.enums.WechatWorkMsgTypeEnum;
+
 /**
  * @author perccyking
  * @since 2024/5/1 23:31
@@ -12,16 +14,16 @@ public abstract class WechatWorkMsg {
 
     public static final String STR = "\"%s\"";
 
-    private WechatWorkMsgType msgType;
+    private WechatWorkMsgTypeEnum msgType;
 
     protected WechatWorkMsg() {
     }
 
-    protected WechatWorkMsg(WechatWorkMsgType msgType) {
+    protected WechatWorkMsg(WechatWorkMsgTypeEnum msgType) {
         this.msgType = msgType;
     }
 
-    public WechatWorkMsgType getMsgType() {
+    public WechatWorkMsgTypeEnum getMsgType() {
         return msgType;
     }
 

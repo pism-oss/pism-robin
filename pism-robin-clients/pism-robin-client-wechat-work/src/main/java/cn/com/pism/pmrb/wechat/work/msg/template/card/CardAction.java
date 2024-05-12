@@ -1,12 +1,12 @@
 package cn.com.pism.pmrb.wechat.work.msg.template.card;
 
-import cn.com.pism.pmrb.core.util.EnhanceUtil;
+import cn.com.pism.pmrb.core.model.JsonConcat;
+import cn.com.pism.pmrb.wechat.work.msg.enums.ClickTypeEnum;
 
 import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNull;
+import static cn.com.pism.pmrb.wechat.work.WechatWorkConstant.*;
 
 public class CardAction {
-
-    private static final String MSG = "{\"type\":%s,\"url\":\"%s\",\"appid\":\"%s\",\"pagepath\":\"%s\"}";
 
     /**
      * <p>卡片跳转类型，1 代表跳转url，2 代表打开小程序。news_notice模版卡片中该字段取值范围为[1,2]</p>
@@ -90,9 +90,12 @@ public class CardAction {
     }
 
     public String toJson() {
-        return String.format(MSG, isNotNull(type, Enum::ordinal, ""),
-                EnhanceUtil.isNotNullOrDef(url),
-                EnhanceUtil.isNotNullOrDef(appid),
-                EnhanceUtil.isNotNullOrDef(pagePath));
+        return JsonConcat
+                .instance()
+                .concat(TYPE, isNotNull(type, Enum::ordinal))
+                .concat(URL, url)
+                .concat(APP_ID, appid)
+                .concat(PAGE_PATH, pagePath)
+                .toJson();
     }
 }

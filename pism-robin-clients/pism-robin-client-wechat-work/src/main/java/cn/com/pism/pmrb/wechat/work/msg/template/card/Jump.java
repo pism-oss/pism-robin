@@ -1,11 +1,12 @@
 package cn.com.pism.pmrb.wechat.work.msg.template.card;
 
+import cn.com.pism.pmrb.core.model.JsonConcat;
+import cn.com.pism.pmrb.wechat.work.msg.enums.ClickTypeEnum;
+
 import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNull;
-import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNullOrDef;
+import static cn.com.pism.pmrb.wechat.work.WechatWorkConstant.*;
 
 public class Jump {
-
-    private static final String MSG = "{\"type\":%s,\"appid\":\"%s\",\"pagepath\":\"%s\",\"url\":\"%s\",\"title\":\"%s\"}";
 
     /**
      * <p>跳转链接类型，0或不填代表不是链接，1 代表跳转url，2 代表跳转小程序</p>
@@ -107,11 +108,12 @@ public class Jump {
     }
 
     public String toJson() {
-        return String.format(MSG,
-                isNotNull(type, Enum::ordinal, 0),
-                isNotNullOrDef(appid),
-                isNotNullOrDef(pagePath),
-                isNotNullOrDef(url),
-                isNotNullOrDef(title));
+        return JsonConcat.instance()
+                .concat(TYPE, isNotNull(type, Enum::ordinal, 0))
+                .concat(APP_ID, appid)
+                .concat(PAGE_PATH, pagePath)
+                .concat(URL, url)
+                .concat(TITLE, title)
+                .toJson();
     }
 }

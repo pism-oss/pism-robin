@@ -5,7 +5,7 @@ import cn.com.pism.pmrb.core.util.CollectionUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import static cn.com.pism.pmrb.wechat.work.msg.WechatWorkMsgType.NEWS;
+import static cn.com.pism.pmrb.wechat.work.msg.enums.WechatWorkMsgTypeEnum.NEWS;
 
 /**
  * @author perccyking

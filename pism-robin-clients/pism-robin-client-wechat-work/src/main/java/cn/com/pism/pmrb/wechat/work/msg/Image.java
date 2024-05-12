@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
-import static cn.com.pism.pmrb.wechat.work.msg.WechatWorkMsgType.IMAGE;
+import static cn.com.pism.pmrb.wechat.work.msg.enums.WechatWorkMsgTypeEnum.IMAGE;
 
 /**
  * @author perccyking

@@ -13,6 +13,7 @@
     <modules>
         <module>pism-robin-core</module>
         <module>pism-robin-clients/pism-robin-client-wechat-work</module>
+        <module>pism-robin-clients/pism-robin-client-ding-talk</module>
     </modules>
 
     <organization>

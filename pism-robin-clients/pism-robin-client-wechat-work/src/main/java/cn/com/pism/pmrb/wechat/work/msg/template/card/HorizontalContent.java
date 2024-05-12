@@ -1,11 +1,12 @@
 package cn.com.pism.pmrb.wechat.work.msg.template.card;
 
+import cn.com.pism.pmrb.core.model.JsonConcat;
+import cn.com.pism.pmrb.wechat.work.msg.enums.ContentTypeEnum;
+
 import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNull;
-import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNullOrDef;
+import static cn.com.pism.pmrb.wechat.work.WechatWorkConstant.*;
 
 public class HorizontalContent {
-
-    private static final String MSG = "{\"keyname\":\"%s\",\"value\":\"%s\",\"type\":%s,\"media_id\":\"%s\",\"url\":\"%s\"}";
 
     /**
      * <p>模版卡片的二级标题信息内容支持的类型，1是url，2是文件附件</p>
@@ -107,10 +108,12 @@ public class HorizontalContent {
     }
 
     public String toJson() {
-        return String.format(MSG, isNotNullOrDef(keyName),
-                isNotNullOrDef(value),
-                isNotNull(type, ContentTypeEnum::getCode, 0),
-                isNotNullOrDef(url),
-                isNotNullOrDef(mediaId));
+        return JsonConcat.instance()
+                .concat(KEY_NAME, keyName)
+                .concat(VALUE, value)
+                .concat(TYPE, isNotNull(type, ContentTypeEnum::getCode))
+                .concat(MEDIA_ID, mediaId)
+                .concat(URL, url)
+                .toJson();
     }
 }

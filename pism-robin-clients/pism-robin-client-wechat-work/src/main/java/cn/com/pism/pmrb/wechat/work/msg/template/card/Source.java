@@ -1,16 +1,17 @@
 package cn.com.pism.pmrb.wechat.work.msg.template.card;
 
+import cn.com.pism.pmrb.core.model.JsonConcat;
+import cn.com.pism.pmrb.wechat.work.msg.enums.DescColorEnum;
+
 import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNull;
-import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNullOrDef;
-import static cn.com.pism.pmrb.wechat.work.msg.template.card.DescColorEnum.GREY;
+import static cn.com.pism.pmrb.wechat.work.WechatWorkConstant.*;
+import static cn.com.pism.pmrb.wechat.work.msg.enums.DescColorEnum.GREY;
 
 /**
  * @author perccyking
  * @since 2024/5/6 15:21
  */
 public class Source {
-
-    public static final String MSG = "{\"icon_url\":\"%s\",\"desc\":\"%s\",\"desc_color\":%s}";
 
     /**
      * <p>来源图片的url</p>
@@ -72,9 +73,10 @@ public class Source {
     }
 
     public String toJson() {
-        return String.format(MSG, isNotNullOrDef(iconUrl),
-                isNotNullOrDef(desc),
-                isNotNull(descColor, Enum::ordinal, 0)
-        );
+        return JsonConcat.instance()
+                .concat(ICON_URL, iconUrl)
+                .concat(DESC, desc)
+                .concat(DESC_COLOR, isNotNull(descColor, Enum::ordinal, 0))
+                .toJson();
     }
 }

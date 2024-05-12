@@ -1,7 +1,10 @@
 package cn.com.pism.pmrb.wechat.work.msg.template.card;
 
+import cn.com.pism.pmrb.core.model.JsonConcat;
+import cn.com.pism.pmrb.wechat.work.msg.enums.ClickTypeEnum;
+
 import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNull;
-import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNullOrDef;
+import static cn.com.pism.pmrb.wechat.work.WechatWorkConstant.*;
 
 /**
  * 引用文献样式，建议不与关键数据共用
@@ -10,8 +13,6 @@ import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNullOrDef;
  * @since 2024/5/6 17:06
  */
 public class QuotArea {
-
-    private static final String MSG = "{\"type\":%s,\"url\":\"%s\",\"appid\":\"%s\",\"pagepath\":\"%s\",\"title\":\"%s\",\"quote_text\":\"%s\"}";
 
     /**
      * <p>引用文献样式区域点击事件，0或不填代表没有点击事件，1 代表跳转url，2 代表跳转小程序</p>
@@ -132,11 +133,13 @@ public class QuotArea {
     }
 
     public String toJson() {
-        return String.format(MSG, isNotNull(type, Enum::ordinal, 0),
-                isNotNullOrDef(url),
-                isNotNullOrDef(appid),
-                isNotNullOrDef(pagePath),
-                isNotNullOrDef(title),
-                isNotNullOrDef(quoteText));
+        return JsonConcat.instance()
+                .concat(TYPE, isNotNull(type, Enum::ordinal, 0))
+                .concat(URL, url)
+                .concat(APP_ID, appid)
+                .concat(PAGE_PATH, pagePath)
+                .concat(TITLE, title)
+                .concat(QUOTE_TEXT, quoteText)
+                .toJson();
     }
 }

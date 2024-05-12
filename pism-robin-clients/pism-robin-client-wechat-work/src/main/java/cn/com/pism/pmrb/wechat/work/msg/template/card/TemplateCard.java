@@ -1,12 +1,15 @@
 package cn.com.pism.pmrb.wechat.work.msg.template.card;
 
+import cn.com.pism.pmrb.core.model.JsonConcat;
 import cn.com.pism.pmrb.wechat.work.msg.WechatWorkMsg;
-import cn.com.pism.pmrb.wechat.work.msg.WechatWorkMsgType;
+import cn.com.pism.pmrb.wechat.work.msg.enums.CardTypeEnum;
+import cn.com.pism.pmrb.wechat.work.msg.enums.WechatWorkMsgTypeEnum;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNull;
+import static cn.com.pism.pmrb.wechat.work.WechatWorkConstant.*;
 
 /**
  * 模版卡片
@@ -16,11 +19,9 @@ import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNull;
  */
 public abstract class TemplateCard<C> extends WechatWorkMsg {
 
-    protected static final String TEMPLATE_CARD_MSG = "\"card_type\": \"%s\", \"source\": %s, \"main_title\": %s, \"quote_area\": %s, \"horizontal_content_list\": [%s],\"jump_list\": [%s], \"card_action\": %s";
-
     protected static final String JSON_BRACKETS = "{}";
 
-    protected TemplateCard(WechatWorkMsgType msgType, CardTypeEnum cardType) {
+    protected TemplateCard(WechatWorkMsgTypeEnum msgType, CardTypeEnum cardType) {
         super(msgType);
         this.cardType = cardType;
     }
@@ -155,14 +156,14 @@ public abstract class TemplateCard<C> extends WechatWorkMsg {
     protected abstract C getInstance();
 
     public String toJson() {
-        return String.format(TEMPLATE_CARD_MSG,
-                isNotNull(getCardType(), CardTypeEnum::getCode, ""),
-                isNotNull(getSource(), Source::toJson, JSON_BRACKETS),
-                isNotNull(getMainTitle(), MainTitle::toJson, JSON_BRACKETS),
-                isNotNull(getQuotArea(), QuotArea::toJson, JSON_BRACKETS),
-                isNotNull(getHorizontalContentList(), hcList -> hcList.stream().map(HorizontalContent::toJson).collect(Collectors.joining(",")), ""),
-                isNotNull(getJumpList(), jl -> jl.stream().map(Jump::toJson).collect(Collectors.joining(",")), ""),
-                isNotNull(getCardAction(), CardAction::toJson, JSON_BRACKETS)
-        );
+        return JsonConcat.instance()
+                .concat(CARD_TYPE, isNotNull(cardType, CardTypeEnum::getCode))
+                .concat(SOURCE, isNotNull(source, Source::toJson))
+                .concat(MAIN_TITLE, isNotNull(mainTitle, MainTitle::toJson))
+                .concat(QUOTE_AREA, isNotNull(getQuotArea(), QuotArea::toJson))
+                .concat(HORIZONTAL_CONTENT_LIST, isNotNull(horizontalContentList, hcList -> hcList.stream().map(HorizontalContent::toJson).collect(Collectors.joining(","))))
+                .concat(JUMP_LIST, isNotNull(getJumpList(), jl -> jl.stream().map(Jump::toJson).collect(Collectors.joining(","))))
+                .concat(CARD_ACTION, isNotNull(cardAction, CardAction::toJson))
+                .concat();
     }
 }

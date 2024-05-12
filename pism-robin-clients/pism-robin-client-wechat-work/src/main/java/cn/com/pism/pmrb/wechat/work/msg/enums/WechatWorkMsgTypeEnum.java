@@ -1,4 +1,4 @@
-package cn.com.pism.pmrb.wechat.work.msg;
+package cn.com.pism.pmrb.wechat.work.msg.enums;
 
 /**
  * 消息类型
@@ -6,7 +6,7 @@ package cn.com.pism.pmrb.wechat.work.msg;
  * @author perccyking
  * @since 2024/5/1 23:31
  */
-public enum WechatWorkMsgType {
+public enum WechatWorkMsgTypeEnum {
     /**
      * 文本类型
      */
@@ -35,7 +35,7 @@ public enum WechatWorkMsgType {
 
     private final String type;
 
-    WechatWorkMsgType(String type) {
+    WechatWorkMsgTypeEnum(String type) {
         this.type = type;
     }
 

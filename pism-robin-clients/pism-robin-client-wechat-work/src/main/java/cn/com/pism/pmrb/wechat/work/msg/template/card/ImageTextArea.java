@@ -1,15 +1,16 @@
 package cn.com.pism.pmrb.wechat.work.msg.template.card;
 
+import cn.com.pism.pmrb.core.model.JsonConcat;
+import cn.com.pism.pmrb.wechat.work.msg.enums.ClickTypeEnum;
+
 import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNull;
-import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNullOrDef;
+import static cn.com.pism.pmrb.wechat.work.WechatWorkConstant.*;
 
 /**
  * @author perccyking
  * @since 2024/5/6 17:16
  */
 public class ImageTextArea {
-
-    private static final String MSG = "{\"type\":%s,\"url\":\"%s\",\"appid\":\"%s\",\"pagepath\":\"%s\",\"title\":\"%s\",\"desc\":\"%s\",\"image_url\":\"%s\"}";
 
     /**
      * <p>左图右文样式区域点击事件，0或不填代表没有点击事件，1 代表跳转url，2 代表跳转小程序</p>
@@ -150,12 +151,14 @@ public class ImageTextArea {
     }
 
     public String toJson() {
-        return String.format(MSG, isNotNull(type, Enum::ordinal, 0),
-                isNotNullOrDef(url),
-                isNotNullOrDef(appid),
-                isNotNullOrDef(pagePath),
-                isNotNullOrDef(title),
-                isNotNullOrDef(desc),
-                isNotNullOrDef(imageUrl));
+        return JsonConcat.instance()
+                .concat(TYPE, isNotNull(type, Enum::ordinal, 0))
+                .concat(URL, url)
+                .concat(APP_ID, appid)
+                .concat(PAGE_PATH, pagePath)
+                .concat(TITLE, title)
+                .concat(DESC, desc)
+                .concat(IMAGE_URL, imageUrl)
+                .toJson();
     }
 }

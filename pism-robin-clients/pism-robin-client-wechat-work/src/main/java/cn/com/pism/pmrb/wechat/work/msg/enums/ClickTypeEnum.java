@@ -1,4 +1,4 @@
-package cn.com.pism.pmrb.wechat.work.msg.template.card;
+package cn.com.pism.pmrb.wechat.work.msg.enums;
 
 /**
  * @author perccyking

@@ -1,11 +1,14 @@
 package cn.com.pism.pmrb.wechat.work.msg.template.card;
 
-import cn.com.pism.pmrb.wechat.work.msg.WechatWorkMsgType;
+import cn.com.pism.pmrb.core.model.JsonConcat;
+import cn.com.pism.pmrb.wechat.work.msg.enums.CardTypeEnum;
+import cn.com.pism.pmrb.wechat.work.msg.enums.WechatWorkMsgTypeEnum;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNull;
+import static cn.com.pism.pmrb.wechat.work.WechatWorkConstant.*;
 
 /**
  * @author perccyking
@@ -13,10 +16,10 @@ import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNull;
  */
 public class TemplateCardNewsNotice extends TemplateCard<TemplateCardNewsNotice> {
 
-    private static final String CARD_NEWS_NOTICE_MSG = "{\"card_image\":%s,\"image_text_area\":%s,\"vertical_content_list\":[%s], %s}";
+    private static final String CARD_NEWS_NOTICE_MSG = "{%s, %s}";
 
     public TemplateCardNewsNotice() {
-        super(WechatWorkMsgType.TEMPLATE_CARD, CardTypeEnum.NEWS_NOTICE);
+        super(WechatWorkMsgTypeEnum.TEMPLATE_CARD, CardTypeEnum.NEWS_NOTICE);
     }
 
     /**
@@ -83,11 +86,12 @@ public class TemplateCardNewsNotice extends TemplateCard<TemplateCardNewsNotice>
     @Override
     public String getMsgContent() {
         return String.format(CARD_NEWS_NOTICE_MSG,
-                isNotNull(getCardImage(), CardImage::toJson, JSON_BRACKETS),
-                isNotNull(getImageTextArea(), ImageTextArea::toJson, JSON_BRACKETS),
-                isNotNull(getVerticalContentList(), vcList -> vcList.stream().map(VerticalContent::toJson).collect(Collectors.joining(",")), ""),
-                super.toJson()
-        );
+                JsonConcat.instance()
+                        .concat(CARD_IMAGE, isNotNull(cardImage, CardImage::toJson))
+                        .concat(IMAGE_TEXT_AREA, isNotNull(imageTextArea, ImageTextArea::toJson))
+                        .concat(VERTICAL_CONTENT_LIST, isNotNull(verticalContentList, vcList -> vcList.stream().map(VerticalContent::toJson).collect(Collectors.joining(","))))
+                        .concat(),
+                super.toJson());
     }
 
     @Override

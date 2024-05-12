@@ -1,4 +1,4 @@
-package cn.com.pism.pmrb.wechat.work.msg.template.card;
+package cn.com.pism.pmrb.wechat.work.msg.enums;
 
 /**
  * 0(默认) 灰色，1 黑色，2 红色，3 绿色

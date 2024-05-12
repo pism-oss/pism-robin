@@ -1,6 +1,8 @@
 package cn.com.pism.pmrb.wechat.work.msg;
 
-import static cn.com.pism.pmrb.wechat.work.msg.WechatWorkMsgType.MARKDOWN;
+import cn.com.pism.pmrb.wechat.work.msg.enums.MarkdownTextColorEnum;
+
+import static cn.com.pism.pmrb.wechat.work.msg.enums.WechatWorkMsgTypeEnum.MARKDOWN;
 
 /**
  * @author perccyking
@@ -175,7 +177,7 @@ public class Markdown extends WechatWorkMsg {
         return addLine(String.format(CODE, code));
     }
 
-    public static String colorText(String text, MarkdownTextColor color) {
+    public static String colorText(String text, MarkdownTextColorEnum color) {
         return String.format(COLOR_TEXT, color.getCode(), text);
     }
 

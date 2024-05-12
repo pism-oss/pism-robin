@@ -1,10 +1,10 @@
-package cn.com.pism.pmrb.wechat.work.msg;
+package cn.com.pism.pmrb.wechat.work.msg.enums;
 
 /**
  * @author perccyking
  * @since 2024/5/5 12:21
  */
-public enum MarkdownTextColor {
+public enum MarkdownTextColorEnum {
     /**
      * 绿色
      */
@@ -26,7 +26,7 @@ public enum MarkdownTextColor {
         return code;
     }
 
-    MarkdownTextColor(String code) {
+    MarkdownTextColorEnum(String code) {
         this.code = code;
     }
 }

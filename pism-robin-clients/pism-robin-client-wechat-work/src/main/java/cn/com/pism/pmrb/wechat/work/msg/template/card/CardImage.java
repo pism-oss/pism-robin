@@ -1,7 +1,10 @@
 package cn.com.pism.pmrb.wechat.work.msg.template.card;
 
+import cn.com.pism.pmrb.core.model.JsonConcat;
+
 import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNull;
-import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNullOrDef;
+import static cn.com.pism.pmrb.wechat.work.WechatWorkConstant.ASPECT_RATIO;
+import static cn.com.pism.pmrb.wechat.work.WechatWorkConstant.URL;
 
 /**
  * 图片样式
@@ -10,8 +13,6 @@ import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNullOrDef;
  * @since 2024/5/6 17:12
  */
 public class CardImage {
-
-    private static final String MSG = "{\"url\":\"%s\",\"aspect_ratio\":%s}";
 
     /**
      * <p>图片的url</p>
@@ -56,6 +57,9 @@ public class CardImage {
     }
 
     public String toJson() {
-        return String.format(MSG, isNotNullOrDef(url), isNotNull(aspectRatio, 1.3));
+        return JsonConcat.instance()
+                .concat(URL, url)
+                .concat(ASPECT_RATIO, isNotNull(aspectRatio, 1.3))
+                .toJson();
     }
 }

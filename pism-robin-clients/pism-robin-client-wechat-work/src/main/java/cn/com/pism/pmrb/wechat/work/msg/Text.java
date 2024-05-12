@@ -1,6 +1,7 @@
 package cn.com.pism.pmrb.wechat.work.msg;
 
 import cn.com.pism.pmrb.core.util.CollectionUtil;
+import cn.com.pism.pmrb.wechat.work.msg.enums.WechatWorkMsgTypeEnum;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +16,7 @@ public class Text extends WechatWorkMsg {
     private static final String TEXT_MSG = "{\"content\":\"%s\",\"mentioned_list\":[%s],\"mentioned_mobile_list\":[%s]}";
 
     public Text() {
-        super(WechatWorkMsgType.TEXT);
+        super(WechatWorkMsgTypeEnum.TEXT);
     }
 
     public static Text instance() {
