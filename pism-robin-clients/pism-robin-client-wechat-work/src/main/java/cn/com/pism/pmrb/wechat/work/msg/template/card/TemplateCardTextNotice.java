@@ -1,8 +1,10 @@
 package cn.com.pism.pmrb.wechat.work.msg.template.card;
 
 import cn.com.pism.pmrb.core.model.JsonConcat;
+import cn.com.pism.pmrb.core.util.StringUtil;
 import cn.com.pism.pmrb.wechat.work.msg.enums.CardTypeEnum;
 
+import static cn.com.pism.pmrb.core.model.RobinConstant.JSON;
 import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNull;
 import static cn.com.pism.pmrb.wechat.work.WechatWorkConstant.EMPHASIS_CONTENT;
 import static cn.com.pism.pmrb.wechat.work.WechatWorkConstant.SUB_TITLE_TEXT;
@@ -64,12 +66,17 @@ public class TemplateCardTextNotice extends TemplateCard<TemplateCardTextNotice>
 
     @Override
     public String getMsgContent() {
+        String textNotice = JsonConcat.instance()
+                .concat(EMPHASIS_CONTENT, isNotNull(emphasisContent, EmphasisContent::toJson))
+                .concat(SUB_TITLE_TEXT, subTitleText)
+                .concat();
+        if (StringUtil.isBlank(textNotice)) {
+            return String.format(JSON, super.toJson());
+        }
         return String.format(CARD_TEXT_NOTICE_MSG,
-                JsonConcat.instance()
-                        .concat(EMPHASIS_CONTENT, isNotNull(emphasisContent, EmphasisContent::toJson))
-                        .concat(SUB_TITLE_TEXT, subTitleText)
-                        .concat(),
-                super.toJson()
+                super.toJson(),
+                textNotice
+
         );
     }
 

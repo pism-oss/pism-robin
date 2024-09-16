@@ -5,12 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.com.pism</groupId>
-        <artifactId>pism-robin</artifactId>
+        <artifactId>pism-robin-client-starters</artifactId>
         <version>${revision}</version>
-        <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>pism-robin-client-wechat-work</artifactId>
+    <artifactId>pism-robin-client-wechat-work-spring-boot-starter</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -20,10 +19,25 @@
 
     <dependencies>
         <dependency>
-            <groupId>cn.com.pism</groupId>
-            <artifactId>pism-robin-core</artifactId>
-            <version>${project.parent.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.com.pism</groupId>
+            <artifactId>pism-robin-client-wechat-work</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

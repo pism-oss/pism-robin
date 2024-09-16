@@ -36,6 +36,10 @@ public abstract class AbstractRobinClient<M, C extends RobinConfig> {
         }
     }
 
+    public void send(M msg) {
+        send(msg, null);
+    }
+
     protected AbstractRobinClient(C config) {
         this.config = config;
     }

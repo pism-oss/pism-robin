@@ -1,12 +1,14 @@
 package cn.com.pism.pmrb.wechat.work.msg.template.card;
 
 import cn.com.pism.pmrb.core.model.JsonConcat;
+import cn.com.pism.pmrb.core.util.StringUtil;
 import cn.com.pism.pmrb.wechat.work.msg.enums.CardTypeEnum;
 import cn.com.pism.pmrb.wechat.work.msg.enums.WechatWorkMsgTypeEnum;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static cn.com.pism.pmrb.core.model.RobinConstant.JSON;
 import static cn.com.pism.pmrb.core.util.EnhanceUtil.isNotNull;
 import static cn.com.pism.pmrb.wechat.work.WechatWorkConstant.*;
 
@@ -85,13 +87,18 @@ public class TemplateCardNewsNotice extends TemplateCard<TemplateCardNewsNotice>
 
     @Override
     public String getMsgContent() {
+        String newsNotice = JsonConcat.instance()
+                .concat(CARD_IMAGE, isNotNull(cardImage, CardImage::toJson))
+                .concat(IMAGE_TEXT_AREA, isNotNull(imageTextArea, ImageTextArea::toJson))
+                .concat(VERTICAL_CONTENT_LIST, isNotNull(verticalContentList, vcList -> vcList.stream().map(VerticalContent::toJson).collect(Collectors.joining(","))))
+                .concat();
+        if (StringUtil.isBlank(newsNotice)) {
+            return String.format(JSON, super.toJson());
+        }
         return String.format(CARD_NEWS_NOTICE_MSG,
-                JsonConcat.instance()
-                        .concat(CARD_IMAGE, isNotNull(cardImage, CardImage::toJson))
-                        .concat(IMAGE_TEXT_AREA, isNotNull(imageTextArea, ImageTextArea::toJson))
-                        .concat(VERTICAL_CONTENT_LIST, isNotNull(verticalContentList, vcList -> vcList.stream().map(VerticalContent::toJson).collect(Collectors.joining(","))))
-                        .concat(),
-                super.toJson());
+                super.toJson(),
+                newsNotice
+        );
     }
 
     @Override
