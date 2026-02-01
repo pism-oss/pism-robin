@@ -19,7 +19,6 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author perccyking
@@ -31,6 +30,11 @@ public class PmrbWechatWorkAutoConfiguration implements BeanDefinitionRegistryPo
 
     private Environment environment;
 
+    /**
+     * 保底或特殊条件下的 Bean 注册
+     * 注意：由于 postProcessBeanDefinitionRegistry 运行非常早，
+     * 如果那里注册了名为 "wechatWorkClient" 的 Bean，这里的 @Bean 可能会被跳过或覆盖
+     */
     @Bean
     @Conditional(NoMatchConditional.class)
     public WechatWorkClient wechatWorkClient(WechatWorkProperties wechatWorkProperties) {
@@ -47,69 +51,42 @@ public class PmrbWechatWorkAutoConfiguration implements BeanDefinitionRegistryPo
             return;
         }
 
-        // 记录是否已经指定了 Primary，防止多个 Primary 冲突
-        AtomicBoolean primaryAssigned = new AtomicBoolean(false);
-
-        // 1. 判断外部配置 (Root) 是否不为空
         boolean rootHasConfig = StringUtils.hasText(wechatWorkProperties.getKey())
                 || StringUtils.hasText(wechatWorkProperties.getWebhook());
 
         if (rootHasConfig) {
-            // 规则：外部配置不为空，直接设为 Primary
-            register(registry, "wechatWorkClient", wechatWorkProperties, true);
-            primaryAssigned.set(true);
+            register(registry, "wechatWorkClient", wechatWorkProperties);
         }
 
-        // 2. 处理 clients
+        // 处理 clients
         Map<String, WechatWorkProperties> clients = wechatWorkProperties.getClients();
         if (!CollectionUtils.isEmpty(clients)) {
-
-            // 如果 Root 没占 Primary，需要判断 clients 里谁当 Primary
-            String primaryCandidateName = null;
-            if (!primaryAssigned.get()) {
-                // 查找是否有显式标记为 primary 的 client
-                primaryCandidateName = clients.entrySet().stream()
-                        .filter(entry -> entry.getValue().isPrimary())
-                        .map(Map.Entry::getKey)
-                        .findFirst()
-                        .orElse(null);
-
-                // 如果没找有标记的，取第一个作为 Primary
-                if (primaryCandidateName == null) {
-                    primaryCandidateName = clients.keySet().iterator().next();
-                }
-            }
-
-            final String finalPrimaryName = primaryCandidateName;
-
-            clients.forEach((name, prop) -> {
-                // 如果当前循环的名字就是选定的候选人，或者是 prop 显式设了 primary 且还没分配过
-                boolean isPrimary = false;
-                if (!primaryAssigned.get() && name.equals(finalPrimaryName)) {
-                    isPrimary = true;
-                    primaryAssigned.set(true);
-                }
-
-                register(registry, name, prop, isPrimary);
-            });
+            clients.forEach((name, prop) -> register(registry, name, prop));
         }
     }
 
-    private void register(BeanDefinitionRegistry registry, String name, WechatWorkProperties prop, boolean isPrimary) {
+    /**
+     * 通用注册方法，去掉了 isPrimary 参数
+     */
+    private void register(BeanDefinitionRegistry registry, String name, WechatWorkProperties prop) {
+        // 如果容器中已经存在同名 Bean 定义，则跳过，防止重复注册
+        if (registry.containsBeanDefinition(name)) {
+            return;
+        }
+
         RootBeanDefinition bd = new RootBeanDefinition(WechatWorkClient.class);
         bd.setInstanceSupplier(() -> buildClient(prop));
         bd.setTargetType(WechatWorkClient.class);
-
-        if (isPrimary) {
-            bd.setPrimary(true);
-        }
 
         // 注册原始名称 Bean
         registry.registerBeanDefinition(name, bd);
 
         // 注册驼峰别名
         if (PropertyNameUtils.shouldConvert(name)) {
-            registry.registerAlias(name, PropertyNameUtils.toCamelCase(name));
+            String alias = PropertyNameUtils.toCamelCase(name);
+            if (!name.equals(alias)) {
+                registry.registerAlias(name, alias);
+            }
         }
     }
 

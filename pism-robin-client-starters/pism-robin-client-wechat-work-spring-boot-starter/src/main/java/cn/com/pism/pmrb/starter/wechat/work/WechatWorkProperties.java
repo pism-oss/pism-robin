@@ -11,9 +11,11 @@ import java.util.Map;
  * @since 24-09-16 14:32
  */
 @Data
-@ConfigurationProperties(prefix = "spring.robin.wechat-work")
+@ConfigurationProperties(prefix = WechatWorkProperties.PREFIX)
 @Component
 public class WechatWorkProperties {
+
+    public static final String PREFIX = "spring.robin.wechat-work";
 
     /**
      * 客户端
