@@ -1,16 +1,20 @@
 package cn.com.pism.pmrb.starter.wechat.work;
 
+import cn.com.pism.pmrb.core.util.PropertyNameUtils;
 import cn.com.pism.pmrb.wechat.work.WechatWorkClient;
 import cn.com.pism.pmrb.wechat.work.WechatWorkConfig;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.jspecify.annotations.NonNull;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
+import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.context.properties.bind.Binder;
+import org.springframework.context.EnvironmentAware;
+import org.springframework.core.env.Environment;
 import org.springframework.util.CollectionUtils;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author perccyking
@@ -18,29 +22,41 @@ import java.util.Map;
  */
 @AutoConfiguration
 @EnableConfigurationProperties(WechatWorkProperties.class)
-public class PmrbWechatWorkAutoConfiguration {
+@AutoConfigureAfter(WechatWorkProperties.class)
+public class PmrbWechatWorkAutoConfiguration implements BeanDefinitionRegistryPostProcessor, EnvironmentAware {
 
-    @Bean
-    @ConditionalOnMissingBean(WechatWorkClient.class)
-    public WechatWorkClient wechatWorkClient(WechatWorkProperties wechatWorkProperties) {
-        WechatWorkConfig wechatWorkConfig = new WechatWorkConfig();
-        wechatWorkConfig.setKey(wechatWorkProperties.getKey());
-        wechatWorkConfig.setWebhook(wechatWorkProperties.getWebhook());
-        wechatWorkConfig.setDelay(wechatWorkProperties.getDelay());
-        return new WechatWorkClient(wechatWorkConfig);
-    }
+    private Environment environment;
 
-    @Bean
-    public Map<String, WechatWorkClient> wechatWorkClientMap(WechatWorkProperties wechatWorkProperties, ConfigurableListableBeanFactory beanFactory) {
-        Map<String, WechatWorkClient> clientMap = new HashMap<>();
-        Map<String, WechatWorkProperties> clients = wechatWorkProperties.getClients();
-        if (!CollectionUtils.isEmpty(clients)) {
-            clients.forEach((k, v) -> clientMap.put(k, wechatWorkClient(v)));
+    @Override
+    public void postProcessBeanDefinitionRegistry(@NonNull BeanDefinitionRegistry registry) throws BeansException {
+        WechatWorkProperties wechatWorkProperties = Binder.get(environment)
+                .bind(WechatWorkProperties.PREFIX, WechatWorkProperties.class)
+                .orElse(null);
+        if (wechatWorkProperties == null || CollectionUtils.isEmpty(wechatWorkProperties.getClients())) {
+            return;
         }
 
-        clientMap.forEach(beanFactory::registerSingleton);
+        wechatWorkProperties.getClients().forEach((name, prop) -> {
+            RootBeanDefinition bd = new RootBeanDefinition(WechatWorkClient.class);
+            bd.setInstanceSupplier(() -> buildClient(prop));
+            registry.registerBeanDefinition(name, bd);
 
-        return clientMap;
+            if (PropertyNameUtils.shouldConvert(name)) {
+                registry.registerAlias(name, PropertyNameUtils.toCamelCase(name));
+            }
+        });
+    }
 
+    private static WechatWorkClient buildClient(WechatWorkProperties properties) {
+        WechatWorkConfig cfg = new WechatWorkConfig();
+        cfg.setKey(properties.getKey());
+        cfg.setWebhook(properties.getWebhook());
+        cfg.setDelay(properties.getDelay());
+        return new WechatWorkClient(cfg);
+    }
+
+    @Override
+    public void setEnvironment(@NonNull Environment environment) {
+        this.environment = environment;
     }
 }
