@@ -76,7 +76,6 @@
     </properties>
 
     <build>
-        <defaultGoal>install</defaultGoal>
         <plugins>
 
             <plugin>
